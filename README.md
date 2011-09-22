@@ -8,8 +8,7 @@ Ruby
 
 To run:
 
-    gem install eventmachine
-    gem install http_parser.rb
+    gem install eventmachine http_parser
     ruby -v server.rb
 
 Node
