@@ -19,8 +19,16 @@ To run:
     brew install node
     node server.js
 
+Go
+-----------
+
+To run:
+
+    brew install go
+    export GOHOME=/usr/local/Cellar/go/r60.1
+    make
+    ./hellod
 
 Benchmark
 -----------
-
     ab -n 10000 -c 100 http://localhost:8080/
