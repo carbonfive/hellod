@@ -25,7 +25,7 @@ Go
 To run:
 
     brew install go
-    export GOHOME=/usr/local/Cellar/go/r60.1
+    export GOROOT=/usr/local/Cellar/go/r60.1
     make
     ./hellod
 
