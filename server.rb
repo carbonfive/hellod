@@ -1,6 +1,7 @@
 require 'eventmachine'
 require 'http/parser'
 
+#GC.disable
 class Server < EM::Connection
 
   def post_init
