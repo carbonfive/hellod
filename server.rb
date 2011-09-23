@@ -3,13 +3,10 @@ require 'http/parser'
 
 #GC.disable
 class Server < EM::Connection
-
   def post_init
     @parser = Http::Parser.new
-    @parser.on_headers_complete = proc do
-      puts @parser.headers
-    end
-    @parser.on_message_complete = method(:get_slash)
+    @parser.on_headers_complete = proc { puts @parser.headers }
+    @parser.on_message_complete = method :get_slash
   end
 
   def get_slash
@@ -19,8 +16,7 @@ class Server < EM::Connection
     close_connection_after_writing
   end
 
-  def unbind
-  end
+  def unbind; end
 
   def receive_data(data)
     @parser << data
@@ -28,8 +24,8 @@ class Server < EM::Connection
 end
 
 EM.run do
-  Signal.trap("INT")  { EM.stop }
-  Signal.trap("TERM") { EM.stop }
+  Signal.trap('INT')  { EM.stop }
+  Signal.trap('TERM') { EM.stop }
 
-  EM.start_server("0.0.0.0", 8080, Server)
+  EM.start_server '127.0.0.1', 8080, Server
 end
