@@ -24,6 +24,7 @@ Go
 
 To run:
 
+    easy_install mercurial
     brew install go
     export GOROOT=/usr/local/Cellar/go/r60.1
     make
