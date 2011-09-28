@@ -3,38 +3,26 @@ HelloD
 
 Testing high performance HTTP "Hello World" servers.
 
-Ruby
+Ruby - port 8080
 -----------
-
-To run:
 
     gem install eventmachine http_parser.rb
     ruby ruby/server.rb
 
-Runs on port 8080
-
-Node
+Node - port 8081
 -----------
-
-To run:
 
     brew install node
     node node/server.js
 
-Runs on port 8081
-
-Go
+Go - port 8082
 -----------
-
-To run:
 
     brew install go
     export GOROOT=/usr/local/Cellar/go/r60.1
     cd go
     make
     ./hellod
-
-Runs on port 8082
 
 Benchmark
 -----------
