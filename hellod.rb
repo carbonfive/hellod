@@ -63,6 +63,7 @@ class Hellod
       else
         puts "Not started"
       end
+      puts
     end
   end
 
