@@ -14,7 +14,7 @@ class Server < EM::Connection
 
   def get_slash
     body = "<html><body><h1>#{@useragent}</h1></body></html>\r\n"
-    send_data "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: #{body.size}\r\n\r\n"
+    send_data "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html\r\nContent-Length: #{body.size}\r\n\r\n"
     send_data body
     close_connection_after_writing
   end
