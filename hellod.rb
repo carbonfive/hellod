@@ -87,9 +87,13 @@ class Hellod
 
   def test_run(port, header = false)
     h = header ? '1' : '2'
-    IO.popen "ab -n #{@n} -c #{@c} http://localhost:#{port}/ 2>&1 | grep % | awk '{print $#{h}}' | xargs echo | sed -e 's/ /,/g'", 'r', do |io|
+    IO.popen "ab -n #{@n} -c #{@c} http://localhost:#{port}/ 2>&1 | grep % | awk '{print $#{h}}' | xargs echo", 'r', do |io|
       io.readlines.each do |line|
-        puts line
+        vals = line.split
+        vals.each do |val|
+          print sprintf("%5s", val)
+        end
+        puts
       end
     end
   end
