@@ -54,10 +54,15 @@ class Hellod
   end
 
   def test(flavor)
+    read
     ports(flavor[0]).each do |f, p|
       puts "Testing #{f} with -n #{@n} -c #{@c}"
-      test_run p, true
-      10.times { test_run p }
+      if @pids[f]
+        test_run p, true
+        10.times { test_run p }
+      else
+        puts "Not started"
+      end
     end
   end
 
