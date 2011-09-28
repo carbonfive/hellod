@@ -10,16 +10,16 @@ operations = %w(start stop test)
 option_parser = OptionParser.new do |opts|
   opts.banner = "HelloD - high performance Hello World!\nUsage: #{__FILE__} [command] [options]"
 
-  opts.on("-n") { |n| config[:number] = n.to_i }
-  opts.on("-c") { |c| config[:concurrent] = c.to_i }
+  opts.on("-n", "--requests N", Integer, "Number of requests") { |n| config[:requests] = n }
+  opts.on("-c", "--concurrent C", Integer, "Concurrent requests") { |c| config[:concurrent] = c }
 
   opts.separator <<-EOS
 
 Supported commands:
 
- start <flavor>                          Start server(s) in the background 
- stop <flavor>                           Stop server(s)
- test <flavor> -n <num> -c <concurrent>  Run performance test(s)
+ start <flavor>                               Start server(s) in the background 
+ stop <flavor>                                Stop server(s)
+ test <flavor> -n <requests> -c <concurrent>  Run performance test(s)
 
  <flavor> is one of: node, ruby, go, all
 

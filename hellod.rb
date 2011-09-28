@@ -8,9 +8,9 @@ class Hellod
            'go' => './go/hellod' }
 
   def initialize(opts = {})
-    opts = { :n => 10000, :c => 100 }.merge(opts)
-    @n = opts[:n]
-    @c = opts[:c]
+    opts = { :requests => 10000, :concurrent => 100 }.merge(opts)
+    @n = opts[:requests]
+    @c = opts[:concurrent]
     @pids = {}
   end
 
