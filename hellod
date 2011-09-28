@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.dirname(__FILE__)
+require 'optparse'
+require 'hellod'
+
+config = { :number => 10000, :concurrent => 100 }
+operations = %w(start stop test)
+
+option_parser = OptionParser.new do |opts|
+  opts.banner = "HelloD - high performance Hello World!\nUsage: #{__FILE__} [command] [options]"
+
+  opts.on("-n") { |n| config[:number] = n.to_i }
+  opts.on("-c") { |c| config[:concurrent] = c.to_i }
+
+  opts.separator <<-EOS
+
+Supported commands:
+
+ start <flavor>                          Start server(s) in the background 
+ stop <flavor>                           Stop server(s)
+ test <flavor> -n <num> -c <concurrent>  Run performance test(s)
+
+ <flavor> is one of: node, ruby, go, all
+
+Example:
+ 
+ hellod start all
+ hellod test all -n 10000 -c 100
+
+EOS
+end
+option_parser.parse!
+
+
+op = ARGV.shift
+if operations.include?(op)
+  begin
+    cli = Hellod.new config
+    cli.send(op.to_sym, ARGV)
+  rescue ArgumentError => ex
+    puts ex.message
+  rescue Exception => e
+    puts "Uh oh, I didn't expect this:"
+    puts e.message
+    puts e.backtrace.join("\n")
+  end
+else
+  puts option_parser.help
+end
