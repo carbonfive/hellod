@@ -6,14 +6,14 @@ class Server < EM::Connection
 
   def post_init
     @parser = Http::Parser.new
-#    @parser.on_headers_complete = proc do
-#      puts @parser.headers
-#    end
+    @parser.on_headers_complete = proc do
+      @useragent = @parser.headers['User-Agent']
+    end
     @parser.on_message_complete = method(:get_slash)
   end
 
   def get_slash
-    body = "<html><body><h1>Hello World</h1></body></html>\r\n"
+    body = "<html><body><h1>#{@useragent}</h1></body></html>\r\n"
     send_data "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: #{body.size}\r\n\r\n"
     send_data body
     close_connection_after_writing
