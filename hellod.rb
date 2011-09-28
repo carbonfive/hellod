@@ -82,7 +82,7 @@ class Hellod
   end
 
   def read
-    @pids = YAML.load( IO.read(config_file) )
+    @pids = YAML.load( IO.read(config_file) ) if File.exists? config_file
   end
 
   def test_run(port, header = false)
