@@ -6,7 +6,7 @@ import (
   "strconv"
 )
 
-var html []byte = []byte("<html><body><h1>Hello World</h1></body></html>")
+var html []byte = []byte("<html><body><h1>Hello World</h1></body></html>\r\n")
 var html_length int = len(html);
 
 func main() {
