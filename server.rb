@@ -6,9 +6,9 @@ class Server < EM::Connection
 
   def post_init
     @parser = Http::Parser.new
-    @parser.on_headers_complete = proc do
-      puts @parser.headers
-    end
+#    @parser.on_headers_complete = proc do
+#      puts @parser.headers
+#    end
     @parser.on_message_complete = method(:get_slash)
   end
 
