@@ -54,7 +54,11 @@ class Hellod
   end
 
   def test(flavor)
-
+    ports(flavor[0]).each do |f, p|
+      puts "Testing #{f} with -n #{@n} -c #{@c}"
+      test_run p, true
+      10.times { test_run p }
+    end
   end
 
   private
@@ -79,6 +83,15 @@ class Hellod
 
   def read
     @pids = YAML.load( IO.read(config_file) )
+  end
+
+  def test_run(port, header = false)
+    h = header ? '1' : '2'
+    IO.popen "ab -n #{@n} -c #{@c} http://localhost:#{port}/ 2>&1 | grep % | awk '{print $#{h}}' | xargs echo | sed -e 's/ /,/g'", 'r', do |io|
+      io.readlines.each do |line|
+        puts line
+      end
+    end
   end
 
 end
