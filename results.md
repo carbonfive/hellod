@@ -35,6 +35,27 @@ Not the fastest and not the most consistent but no red flags.
      100%     36 (longest request)
 
 
+Clojure 1.2.1 with Jetty + Ring
+--------------------------------
+
+Time taken for tests:   1.802 seconds
+Requests per second:    5549.43 [#/sec] (mean)
+Time per request:       9.010 [ms] (mean)
+Time per request:       0.180 [ms] (mean, across all concurrent requests)
+Transfer rate:          693.68 [Kbytes/sec] received
+
+Percentage of the requests served within a certain time (ms)
+  50%      9
+  66%     10
+  75%     11
+  80%     11
+  90%     13
+  95%     14
+  98%     17
+  99%     19
+ 100%     22 (longest request)
+
+
 Ruby 1.9.3-rc1
 ----------------
 

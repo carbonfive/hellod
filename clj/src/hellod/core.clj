@@ -10,7 +10,7 @@
 (defn hello [req]
   {:status 200
    :headers {"Content-Type" "text/html"}
-   :body "Hello World from Ring"}) 
+   :body "<html><body><h1>Hello World</h1></body></html>"}) 
 
 (defn -main [& args]
   (start-http-server hello-world {:port 8083})
