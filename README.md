@@ -24,6 +24,12 @@ Go - port 8082
     make
     ./hellod
 
+Clojure - port 8083
+-----------
+
+    Install Leiningen from https://github.com/technomancy/leiningen
+    cd clj ; lein run
+
 Benchmark
 -----------
     ab -n 10000 -c 100 http://localhost:8080/
