@@ -21,12 +21,12 @@ Supported commands:
  stop <flavor>                                Stop server(s)
  test <flavor> -n <requests> -c <concurrent>  Run performance test(s)
 
- <flavor> is one of: node, ruby, go, all
+ <flavor> is one of: node, ruby, go, clj-aleph, clj-jetty, all
 
 Example:
  
  hellod start all
- hellod test all -n 10000 -c 100
+ hellod test all -n 10000 -c 50
 
 EOS
 end
