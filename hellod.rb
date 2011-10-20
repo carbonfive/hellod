@@ -62,7 +62,7 @@ class Hellod
       puts "Testing #{f} with -n #{@n} -c #{@c}"
       if @pids[f]
         test_run p, true
-        10.times { test_run p }
+        5.times { test_run p }
       else
         puts "Not started"
       end
