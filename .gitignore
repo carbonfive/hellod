@@ -1,2 +1,4 @@
 go/_*
 go/hellod
+clj/classes
+clj/lib

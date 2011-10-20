@@ -4,7 +4,7 @@ $LOAD_PATH << File.dirname(__FILE__)
 require 'optparse'
 require 'hellod'
 
-config = { :number => 10000, :concurrent => 100 }
+config = { :number => 10000, :concurrent => 50 }
 operations = %w(start stop test)
 
 option_parser = OptionParser.new do |opts|

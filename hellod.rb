@@ -2,13 +2,14 @@ require 'yaml'
 
 class Hellod
 
-  PORTS = { 'ruby' => 8080, 'node' => 8081, 'go' => 8082 }
+  PORTS = { 'ruby' => 8080, 'node' => 8081, 'go' => 8082, 'clj' => '8083', 'clj2' => '8084' }
   CMDS = { 'ruby' => 'ruby ruby/server.rb',
            'node' => 'node node/server.js',
-           'go' => './go/hellod' }
+           'go' => 'GOMAXPROCS=6; ./go/hellod',
+           'clj' => 'cd clj; lein run' }
 
   def initialize(opts = {})
-    opts = { :requests => 10000, :concurrent => 100 }.merge(opts)
+    opts = { :requests => 10000, :concurrent => 50 }.merge(opts)
     @n = opts[:requests]
     @c = opts[:concurrent]
     @pids = {}
@@ -89,6 +90,7 @@ class Hellod
 
   def read
     @pids = YAML.load( IO.read(config_file) ) if File.exists? config_file
+    @pids = {} unless @pids
   end
 
   def test_run(port, header = false)
