@@ -5,6 +5,12 @@ Performance results testing with ab.  All tests run on a MBP Core i5, 4GB RAM, O
 
     ab -n 10000 -c 50 http://127.0.0.1:8080/
 
+The java version:
+
+    java version "1.6.0_26"
+    Java(TM) SE Runtime Environment (build 1.6.0_26-b03-383-11A511)
+    Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02-383, mixed mode)
+
 
 Clojure
 ----------------
