@@ -12,7 +12,7 @@ The java version:
     Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02-383, mixed mode)
 
 
-Clojure 1.2.1
+Clojure 1.2.1 with Aleph
 ----------------
 
 Not the fastest and not the most consistent but no red flags.
@@ -38,22 +38,24 @@ Not the fastest and not the most consistent but no red flags.
 Clojure 1.2.1 with Jetty + Ring
 --------------------------------
 
-Time taken for tests:   1.802 seconds
-Requests per second:    5549.43 [#/sec] (mean)
-Time per request:       9.010 [ms] (mean)
-Time per request:       0.180 [ms] (mean, across all concurrent requests)
-Transfer rate:          693.68 [Kbytes/sec] received
+Definitely faster and more consistent than Aleph.
 
-Percentage of the requests served within a certain time (ms)
-  50%      9
-  66%     10
-  75%     11
-  80%     11
-  90%     13
-  95%     14
-  98%     17
-  99%     19
- 100%     22 (longest request)
+    Time taken for tests:   1.802 seconds
+    Requests per second:    5549.43 [#/sec] (mean)
+    Time per request:       9.010 [ms] (mean)
+    Time per request:       0.180 [ms] (mean, across all concurrent requests)
+    Transfer rate:          693.68 [Kbytes/sec] received
+
+    Percentage of the requests served within a certain time (ms)
+      50%      9
+      66%     10
+      75%     11
+      80%     11
+      90%     13
+      95%     14
+      98%     17
+      99%     19
+     100%     22 (longest request)
 
 
 Ruby 1.9.3-rc1
