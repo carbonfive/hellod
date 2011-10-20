@@ -1,5 +1,5 @@
 (ns hellod.core)
-(use 'lamina.core 'ring.adapter.jetty)
+(use 'ring.adapter.jetty)
 
 (defn hello [req]
   {:status 200
