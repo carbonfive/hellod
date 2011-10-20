@@ -12,7 +12,7 @@ The java version:
     Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02-383, mixed mode)
 
 
-Clojure
+Clojure 1.2.1
 ----------------
 
 Not the fastest and not the most consistent but no red flags.
