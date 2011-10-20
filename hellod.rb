@@ -43,6 +43,7 @@ class Hellod
       if pid
         begin
           Process.kill 'HUP', pid
+          Process.kill 'HUP', (pid + 2) if f =~ /^clj/  # crazy ass hack -mike
           puts " done"
         rescue
           puts " not running"
