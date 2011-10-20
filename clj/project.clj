@@ -4,5 +4,6 @@
   :tasks []
   :main hellod.core
   :dependencies [[clojure "1.2.1"]
-                 [aleph "0.2.0-beta2"]])
+                 [aleph "0.2.0-beta2"]
+                 [ring "1.0.0-beta2"]])
 
