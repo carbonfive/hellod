@@ -2,9 +2,12 @@ GEM
   remote: http://rubygems.org/
   specs:
     eventmachine (0.12.10)
+    eventmachine (0.12.10-java)
     http_parser.rb (0.5.2)
+    http_parser.rb (0.5.2-java)
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES
