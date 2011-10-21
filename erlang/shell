@@ -1,0 +1,2 @@
+rebar get-deps compile
+erl -pa `pwd`/ebin `pwd`/deps/*/ebin -sname test -boot start_sasl +P 134217727

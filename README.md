@@ -30,6 +30,15 @@ Clojure - port 8083
     Install Leiningen from https://github.com/technomancy/leiningen
     cd clj ; lein run
 
+Erlang - port 8084
+-----------
+
+    brew install erlang
+    brew install rebar
+    cd erlang; ./shell
+    # in shell
+    > application:start(hello).
+
 Benchmark
 -----------
     ab -n 10000 -c 100 http://localhost:8080/
