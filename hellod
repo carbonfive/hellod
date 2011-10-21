@@ -21,7 +21,7 @@ Supported commands:
  stop <flavor>                                Stop server(s)
  test <flavor> -n <requests> -c <concurrent>  Run performance test(s)
 
- <flavor> is one of: node, ruby, go, clj-aleph, clj-jetty, all
+ <flavor> is one of: node, ruby, go, clj-aleph, clj-jetty, c, all
 
 Example:
  

@@ -2,12 +2,18 @@ require 'yaml'
 
 class Hellod
 
-  PORTS = { 'ruby' => 8080, 'node' => 8081, 'go' => 8082, 'clj-aleph' => '8083', 'clj-jetty' => '8084' }
+  PORTS = { 'ruby' => 8080,
+            'node' => 8081,
+            'go' => 8082,
+            'clj-aleph' => '8083',
+            'clj-jetty' => '8084',
+            'c' => '8085' }
   CMDS = { 'ruby' => 'ruby ruby/server.rb',
            'node' => 'node node/server.js',
            'go' => 'GOMAXPROCS=6; ./go/hellod',
            'clj-aleph' => 'cd clj-aleph; lein run',
-           'clj-jetty' => 'cd clj-jetty; lein run' }
+           'clj-jetty' => 'cd clj-jetty; lein run',
+           'c' => './c/hellod' }
 
   def initialize(opts = {})
     opts = { :requests => 10000, :concurrent => 50 }.merge(opts)
