@@ -48,7 +48,7 @@ void
 say_hello(int fd)
 {
   char *headers = calloc(sizeof(HEADER_TEXT) + 16, sizeof(char));
-  sprintf(headers, HEADER_TEXT, sizeof(BODY_TEXT));
+  sprintf(headers, HEADER_TEXT, sizeof(BODY_TEXT) - 1);
   dbgprintf("%s\n", headers);
 
   fdwrite(fd, headers, strlen(headers));
