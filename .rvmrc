@@ -1,1 +1,2 @@
-rvm --create 1.9.2@hellod
+rvm 1.9.2@hellod --create
+rvm gemset import | grep -v -E 'already installed|default\.gems|^$'

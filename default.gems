@@ -1,0 +1,3 @@
+# default.gems generated gem export file. Note that any env variable settings will be missing. Append these after using a ';' field separator
+eventmachine -v0.12.6
+http_parser.rb -v0.5.3
