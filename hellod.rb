@@ -65,7 +65,7 @@ class Hellod
   def test(flavor)
     read
     ports(flavor[0]).each do |f, p|
-      puts "Testing #{f} with -n #{@n} -c #{@c}"
+      puts "\tTesting #{f} with -n #{@n} -c #{@c}"
       if @pids[f]
         test_run p, true
         5.times { test_run p }
@@ -107,10 +107,11 @@ class Hellod
     values = []
     IO.popen "ab -r -n #{@n} -c #{@c} http://localhost:#{port}/ 2>&1", 'r' do |io|
       io.readlines.each do |line|
-        failures = line.split(":")[1].strip.to_i if line =~ /^Failed requests:/
+        failures = line.split(":")[1].strip.to_i / 2 if line =~ /^Failed requests:/
         values << line.split[h] if line =~ /\d+%/
       end
     end
+    printf "\t"
     values.each do |val|
       print sprintf("%6s", val)
     end
