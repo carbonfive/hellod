@@ -2,3 +2,7 @@ go/_*
 go/hellod
 clj-*/classes
 clj-*/lib
+*.[oa]
+c/hellod
+c/libtask/primes
+c/libtask/testdelay
