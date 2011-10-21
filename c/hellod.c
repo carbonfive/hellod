@@ -11,7 +11,7 @@
 #define HEADER_TEXT "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html\r\nContent-Length: %lu\r\n\r\n"
 
 char *address = "0.0.0.0";
-int port = 8000;
+int port = 8085;
 
 void
 exit_cleanly()
