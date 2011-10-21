@@ -102,16 +102,20 @@ class Hellod
   end
 
   def test_run(port, header = false)
-    h = header ? '1' : '2'
-    IO.popen "ab -n #{@n} -c #{@c} http://localhost:#{port}/ 2>&1 | grep % | awk '{print $#{h}}' | xargs echo", 'r' do |io|
+    h = header ? 0 : 1
+    failures = 0
+    values = []
+    IO.popen "ab -r -n #{@n} -c #{@c} http://localhost:#{port}/ 2>&1", 'r' do |io|
       io.readlines.each do |line|
-        vals = line.split
-        vals.each do |val|
-          print sprintf("%5s", val)
-        end
-        puts
+        failures = line.split(":")[1].strip.to_i if line =~ /^Failed requests:/
+        values << line.split[h] if line =~ /\d+%/
       end
     end
+    values.each do |val|
+      print sprintf("%6s", val)
+    end
+    printf "   (#{failures} failures)" if failures > 0 && ! header
+    puts
   end
 
 end
