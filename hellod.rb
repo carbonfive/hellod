@@ -97,7 +97,7 @@ class Hellod
 
   def test_run(port, header = false)
     h = header ? '1' : '2'
-    IO.popen "ab -n #{@n} -c #{@c} http://localhost:#{port}/ 2>&1 | grep % | awk '{print $#{h}}' | xargs echo", 'r', do |io|
+    IO.popen "ab -n #{@n} -c #{@c} http://localhost:#{port}/ 2>&1 | grep % | awk '{print $#{h}}' | xargs echo", 'r' do |io|
       io.readlines.each do |line|
         vals = line.split
         vals.each do |val|
