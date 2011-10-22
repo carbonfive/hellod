@@ -22,10 +22,10 @@ run()
   ./hellod start $flavor > /dev/null
   echo $desc
   echo "-------------"
-  $version1
+  $version1 2>&1
 
   if [ "$version2" != "" ]; then
-    $version2
+    $version2 2>&1
   fi
 
   echo ""
