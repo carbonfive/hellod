@@ -11,7 +11,8 @@ Before each test, I start the server and I give it 5 seconds to start up.  I thi
 
 Ruby 1.9.2
 -------------
-ruby 1.9.2p290 (2011-07-09 revision 32553) [x86_64-linux]
+	$ ruby -v
+	ruby 1.9.2p290 (2011-07-09 revision 32553) [x86_64-linux]
 
 	Testing ruby with -n 10000 -c 50
 	   50%   66%   75%   80%   90%   95%   98%   99%  100%
@@ -32,7 +33,8 @@ ruby 1.9.2p290 (2011-07-09 revision 32553) [x86_64-linux]
 
 Ruby 1.9.3
 -------------
-ruby 1.9.3dev (2011-09-23 revision 33323) [x86_64-linux]
+	$ ruby -v
+	ruby 1.9.3dev (2011-09-23 revision 33323) [x86_64-linux]
 
 	Testing ruby with -n 10000 -c 50
 	   50%   66%   75%   80%   90%   95%   98%   99%  100%
@@ -53,10 +55,13 @@ ruby 1.9.3dev (2011-09-23 revision 33323) [x86_64-linux]
 
 JRuby 1.6.4 - Sun JDK
 -------------
-jruby 1.6.4 (ruby-1.8.7-p330) (2011-08-23 17ea768) (Java HotSpot(TM) 64-Bit Server VM 1.6.0_26) [linux-amd64-java]
-java version "1.6.0_26"
-Java(TM) SE Runtime Environment (build 1.6.0_26-b03)
-Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02, mixed mode)
+	$ ruby -v
+	jruby 1.6.4 (ruby-1.8.7-p330) (2011-08-23 17ea768) (Java HotSpot(TM) 64-Bit Server VM 1.6.0_26) [linux-amd64-java]
+	
+	$ java -version
+	java version "1.6.0_26"
+	Java(TM) SE Runtime Environment (build 1.6.0_26-b03)
+	Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02, mixed mode)  
 
 	Testing ruby with -n 10000 -c 50
 	   50%   66%   75%   80%   90%   95%   98%   99%  100%
@@ -77,10 +82,13 @@ Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02, mixed mode)
 
 JRuby 1.6.4 - OpenJDK
 -------------
-jruby 1.6.4 (ruby-1.8.7-p330) (2011-08-23 17ea768) (OpenJDK 64-Bit Server VM 1.6.0_20) [linux-amd64-java]
-java version "1.6.0_20"
-OpenJDK Runtime Environment (IcedTea6 1.9.9) (6b20-1.9.9-0ubuntu1~10.04.2)
-OpenJDK 64-Bit Server VM (build 19.0-b09, mixed mode)
+	$ ruby -v
+	jruby 1.6.4 (ruby-1.8.7-p330) (2011-08-23 17ea768) (OpenJDK 64-Bit Server VM 1.6.0_20) [linux-amd64-java]
+	
+	$ java -version
+	java version "1.6.0_20"
+	OpenJDK Runtime Environment (IcedTea6 1.9.9) (6b20-1.9.9-0ubuntu1~10.04.2)
+	OpenJDK 64-Bit Server VM (build 19.0-b09, mixed mode)
 
 	Testing ruby with -n 10000 -c 50
 	   50%   66%   75%   80%   90%   95%   98%   99%  100%
@@ -101,7 +109,8 @@ OpenJDK 64-Bit Server VM (build 19.0-b09, mixed mode)
 
 Go
 -------------
-6g version release.r60.1 9497
+	$ 6g -V
+	6g version release.r60.1 9497
 
 	Testing go with -n 10000 -c 50
 	   50%   66%   75%   80%   90%   95%   98%   99%  100%
@@ -122,7 +131,8 @@ Go
 
 Node.js
 -------------
-v0.4.12
+	$ node -v
+	v0.4.12
 
 	Testing node with -n 10000 -c 50
 	   50%   66%   75%   80%   90%   95%   98%   99%  100%
@@ -143,10 +153,13 @@ v0.4.12
 
 Clojure / Aleph - Sun JDK
 -------------
-Leiningen 1.6.1.1 on Java 1.6.0_26 Java HotSpot(TM) 64-Bit Server VM
-java version "1.6.0_26"
-Java(TM) SE Runtime Environment (build 1.6.0_26-b03)
-Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02, mixed mode)
+	$ lein version
+	Leiningen 1.6.1.1 on Java 1.6.0_26 Java HotSpot(TM) 64-Bit Server VM
+	
+	$ java -version
+	java version "1.6.0_26"
+	Java(TM) SE Runtime Environment (build 1.6.0_26-b03)
+	Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02, mixed mode)
 
 	Testing clj-aleph with -n 10000 -c 50
 	   50%   66%   75%   80%   90%   95%   98%   99%  100%
@@ -167,10 +180,13 @@ Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02, mixed mode)
 
 Clojure / Aleph - OpenJDK
 -------------
-Leiningen 1.6.1.1 on Java 1.6.0_20 OpenJDK 64-Bit Server VM
-java version "1.6.0_20"
-OpenJDK Runtime Environment (IcedTea6 1.9.9) (6b20-1.9.9-0ubuntu1~10.04.2)
-OpenJDK 64-Bit Server VM (build 19.0-b09, mixed mode)
+	$ lein version
+	Leiningen 1.6.1.1 on Java 1.6.0_20 OpenJDK 64-Bit Server VM
+
+	$ java -version
+	java version "1.6.0_20"
+	OpenJDK Runtime Environment (IcedTea6 1.9.9) (6b20-1.9.9-0ubuntu1~10.04.2)
+	OpenJDK 64-Bit Server VM (build 19.0-b09, mixed mode)
 
 	Testing clj-aleph with -n 10000 -c 50
 	   50%   66%   75%   80%   90%   95%   98%   99%  100%
@@ -191,10 +207,13 @@ OpenJDK 64-Bit Server VM (build 19.0-b09, mixed mode)
 
 Clojure / Ring - Sun JDK
 -------------
-Leiningen 1.6.1.1 on Java 1.6.0_26 Java HotSpot(TM) 64-Bit Server VM
-java version "1.6.0_26"
-Java(TM) SE Runtime Environment (build 1.6.0_26-b03)
-Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02, mixed mode)
+	$ lein version
+	Leiningen 1.6.1.1 on Java 1.6.0_26 Java HotSpot(TM) 64-Bit Server VM
+
+	$ java -version
+	java version "1.6.0_26"
+	Java(TM) SE Runtime Environment (build 1.6.0_26-b03)
+	Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02, mixed mode)
 
 	Testing clj-jetty with -n 10000 -c 50
 	   50%   66%   75%   80%   90%   95%   98%   99%  100%
@@ -215,10 +234,13 @@ Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02, mixed mode)
 
 Clojure / Ring - OpenJDK
 -------------
-Leiningen 1.6.1.1 on Java 1.6.0_20 OpenJDK 64-Bit Server VM
-java version "1.6.0_20"
-OpenJDK Runtime Environment (IcedTea6 1.9.9) (6b20-1.9.9-0ubuntu1~10.04.2)
-OpenJDK 64-Bit Server VM (build 19.0-b09, mixed mode)
+	$ lein version
+	Leiningen 1.6.1.1 on Java 1.6.0_20 OpenJDK 64-Bit Server VM
+
+	$ java -version
+	java version "1.6.0_20"
+	OpenJDK Runtime Environment (IcedTea6 1.9.9) (6b20-1.9.9-0ubuntu1~10.04.2)
+	OpenJDK 64-Bit Server VM (build 19.0-b09, mixed mode)
 
 	Testing clj-jetty with -n 10000 -c 50
 	   50%   66%   75%   80%   90%   95%   98%   99%  100%
