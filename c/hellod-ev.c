@@ -44,6 +44,8 @@ struct ev_loop *global_loop;
 int port = 8000;
 int total_clients = 0;
 
+char *body;
+
 void accept_cb(struct ev_loop *loop, struct ev_io *watcher, int revents);
 
 typedef struct Connection *Connection;
@@ -101,10 +103,11 @@ conn_close(Connection conn)
   total_clients--;
   printf("%d client(s) connected.\n", total_clients);
 
-  shutdown(conn->fd, SHUT_RDWR);
   ev_io_stop(global_loop, conn->read_watcher);
   ev_io_stop(global_loop, conn->write_watcher);
+  shutdown(conn->fd, SHUT_RDWR);
   close(conn->fd);
+
   buffer_destroy(conn->in);
   buffer_destroy(conn->out);
   free(conn);
@@ -214,10 +217,11 @@ conn_read_callback(struct ev_loop *loop, struct ev_io *watcher, int revents)
   // read some stuff - right now we cheat and just assume it is a request :)
   ev_io_stop(loop, conn->read_watcher);
 
-  char *headers = calloc(strlen(HEADER_TEXT) + 16, sizeof(char));
-  sprintf(headers, HEADER_TEXT, strlen(HEADER_TEXT));
-  conn_write(conn, headers, strlen(headers));
-  conn_write(conn, BODY_TEXT, strlen(BODY_TEXT));
+  /* char *headers = calloc(strlen(HEADER_TEXT) + 16, sizeof(char));*/
+  /* sprintf(headers, HEADER_TEXT, strlen(HEADER_TEXT));*/
+  /* conn_write(conn, headers, strlen(headers));*/
+  /* conn_write(conn, BODY_TEXT, strlen(BODY_TEXT));*/
+  conn_write(conn, body, strlen(body));
 
   ev_io_start(loop, conn->write_watcher);
 }
@@ -252,6 +256,7 @@ conn_write_callback(struct ev_loop *loop, struct ev_io *watcher, int revents)
     /* buffer_reset(conn->out);*/
     /* ev_io_stop(loop, conn->write_watcher);*/
     /* ev_io_start(loop, conn->read_watcher);*/
+    printf("Done writing. Closing connection %i.\n", total_clients);
     conn_close(conn);
   }
 }
@@ -330,11 +335,22 @@ setup_event_loop()
   /* ev_set_io_collect_interval(global_loop, IO_COLLECT_INTERVAL);*/
 }
 
+void
+prep_content_buffers()
+{
+  char *headers = calloc(strlen(HEADER_TEXT) + 16, sizeof(char));
+  sprintf(headers, HEADER_TEXT, strlen(BODY_TEXT));
+  body = calloc(strlen(HEADER_TEXT) + 16 + strlen(BODY_TEXT), sizeof(char));
+  memmove(body, headers, strlen(headers));
+  memmove(body+strlen(headers), BODY_TEXT, strlen(BODY_TEXT));
+}
+
 int
 main(void)
 {
   puts("started.");
 
+  prep_content_buffers();
   setup_event_loop();
   /* set_sig_handlers();*/
   accept_connections();
