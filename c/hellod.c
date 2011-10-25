@@ -59,24 +59,23 @@ void
 hellodtask(void *v)
 {
   Connection conn;
-  conn = (Connection)v;
+  conn = conn_init();
+  conn->fd = (int)v;
 
   int r;
-  for (;;) {
-    r = conn_read_command(conn);
-    if (r == -1) {
-      dbgprintf("Could not conn_read_command()\n");
-      taskexit(-1);
-    }
-    dbgprintf("Command: %s\n", conn->command);
+  /* r = conn_read_command(conn);*/
+  /* if (r == -1) {*/
+  /*   dbgprintf("Could not conn_read_command()\n");*/
+  /*   taskexit(-1);*/
+  /* }*/
+  /* dbgprintf("Command: %s\n", conn->command);*/
 
-    dbgprintf("Saying hello.\n");
-    say_hello(conn->fd);
-    dbgprintf("Said hello.\n");
-    conn_close(conn);
-    dbgprintf("Conn closed\n");
-    taskexit(0);
-  }
+  dbgprintf("Saying hello.\n");
+  /* say_hello(conn->fd);*/
+  dbgprintf("Said hello.\n");
+  conn_close(conn);
+  dbgprintf("Conn closed\n");
+  taskexit(0);
 }
 
 void
@@ -97,14 +96,13 @@ taskmain(int argc, char **argv)
   fdnoblock(fd);
 
   while (1) {
+    dbgprintf("Accepting connect.");
     cfd = netaccept(fd, remote, &rport);
+    dbgprintf("..connected.\n");
     fdnoblock(cfd);
     if (cfd < 0) {
       exit(1);
     }
-    Connection conn = conn_init();
-    conn->fd = cfd;
-
-    taskcreate(hellodtask, (void*)conn, STACK_SIZE);
+    taskcreate(hellodtask, (void*)cfd, STACK_SIZE);
   }
 }
