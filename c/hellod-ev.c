@@ -41,7 +41,7 @@ struct ev_loop *global_loop;
 
 #define BUFFER_SIZE 1024
 
-int port = 8000;
+int port = 8085;
 int total_clients = 0;
 
 char *body;
@@ -81,8 +81,8 @@ conn_init(int fd)
   Connection conn;
 
   total_clients++;
-  puts("Succcessfully connected with client.");
-  printf("%d client(s) connected.\n", total_clients);
+  //puts("Succcessfully connected with client.");
+  //printf("%d client(s) connected.\n", total_clients);
 
   conn = malloc(sizeof(struct Connection));
   conn->fd = fd;
@@ -101,7 +101,7 @@ void
 conn_close(Connection conn)
 {
   total_clients--;
-  printf("%d client(s) connected.\n", total_clients);
+  //printf("%d client(s) connected.\n", total_clients);
 
   ev_io_stop(global_loop, conn->read_watcher);
   ev_io_stop(global_loop, conn->write_watcher);
@@ -256,7 +256,7 @@ conn_write_callback(struct ev_loop *loop, struct ev_io *watcher, int revents)
     /* buffer_reset(conn->out);*/
     /* ev_io_stop(loop, conn->write_watcher);*/
     /* ev_io_start(loop, conn->read_watcher);*/
-    printf("Done writing. Closing connection %i.\n", total_clients);
+    //printf("Done writing. Closing connection %i.\n", total_clients);
     conn_close(conn);
   }
 }
