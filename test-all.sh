@@ -22,10 +22,13 @@ run()
   ./hellod start $flavor > /dev/null
   echo $desc
   echo "-------------"
-  $version1 2>&1
+  echo "\t$version1"
+  $version1 2>&1 | sed s/^/\\t/
 
   if [ "$version2" != "" ]; then
-    $version2 2>&1
+    echo ""
+    echo "\t$version2"
+    $version2 2>&1 | sed s/^/\\t/
   fi
 
   echo ""
