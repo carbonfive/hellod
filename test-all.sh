@@ -16,18 +16,20 @@ run()
   fi
 
   if [ "$java" != "" ]; then
-    sudo update-alternatives --set java $java > /dev/null
+    sudo update-alternatives --set java $java > /dev/null 2>&1
   fi
 
   ./hellod start $flavor > /dev/null
   echo $desc
   echo "-------------"
-  echo "\t$version1"
-  $version1 2>&1 | sed s/^/\\t/
+  if [ "$version1" != ""]; then
+    echo -e "\t$version1"
+    $version1 2>&1 | sed s/^/\\t/
+  fi
 
   if [ "$version2" != "" ]; then
     echo ""
-    echo "\t$version2"
+    echo -e "\t$version2"
     $version2 2>&1 | sed s/^/\\t/
   fi
 
@@ -54,6 +56,7 @@ run 'ruby' 'JRuby 1.6.4 - Sun JDK' 'ruby -v' 'java -version' 'jruby@hellod' $SUN
 run 'ruby' 'JRuby 1.6.4 - OpenJDK' 'ruby -v' 'java -version' 'jruby@hellod' $OPENJDK
 run 'go' 'Go' '6g -V' '' '' ''
 run 'node' 'Node.js' 'node -v' '' '' ''
+run 'c' 'C / libev' '' '' '' ''
 run 'clj-aleph' 'Clojure / Aleph - Sun JDK' 'lein version' 'java -version' '' $SUNJDK
 run 'clj-aleph' 'Clojure / Aleph - OpenJDK' 'lein version' 'java -version' '' $OPENJDK
 run 'clj-jetty' 'Clojure / Ring - Sun JDK' 'lein version' 'java -version' '' $SUNJDK
