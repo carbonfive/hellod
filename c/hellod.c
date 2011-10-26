@@ -32,23 +32,12 @@
  *
  */
 
-// Our global event loop.
-struct ev_loop *global_loop;
+/**
+ * TYPEDEFS / FORWARD DECLARATIONS
+ */
 
-#define IO_COLLECT_INTERVAL 0.01
-
-#define HEADER_TEXT "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html\r\nContent-Length: %lu\r\n\r\n"
-#define BODY_TEXT   "<html><body><h1>Hello World</h1></body></html>\r\n"
-
-#define BUFFER_SIZE 1024
-
-int port = 8085;
-int total_clients = 0;
-
-char *body;
-
-void accept_cb(struct ev_loop *loop, struct ev_io *watcher, int revents);
-
+typedef struct Stack *Stack;
+typedef struct Node *Node;
 typedef struct Connection *Connection;
 typedef struct Buffer *Buffer;
 
@@ -67,40 +56,160 @@ struct Buffer {
   int loc;
 };
 
+struct Node {
+  void *value;
+  Node next;
+};
+
+struct Stack {
+  Node top;
+};
+
+Node node_init();
+void node_destroy(Node node);
+
+Stack stack_init();
+void stack_destroy(Stack stack);
+Node stack_pop(Stack stack);
+void stack_push(Stack stack, Node node);
+
 Connection conn_init();
+void conn_destroy(Connection conn);
+Connection conn_start(int client_sd);
 void conn_close(Connection conn);
 void conn_write(Connection conn, char *to_write, int to_write_len);
 void conn_read_callback(struct ev_loop *loop, struct ev_io *watcher, int revents);
 void conn_write_callback(struct ev_loop *loop, struct ev_io *watcher, int revents);
 
 Buffer buffer_init();
+void buffer_reset(Buffer buffer);
 void buffer_destroy(Buffer buffer);
 
+void accept_cb(struct ev_loop *loop, struct ev_io *watcher, int revents);
+
+/**
+ * GLOBALS
+ */
+
+#define CONNECTION_POOL_SIZE 256
+#define BUFFER_SIZE 1024
+
+#define HEADER_TEXT "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html\r\nContent-Length: %lu\r\n\r\n"
+#define BODY_TEXT   "<html><body><h1>Hello World</h1></body></html>\r\n"
+
+// Our global event loop.
+struct ev_loop *global_loop;
+
+// Connection pool
+Stack connection_pool;
+
+// Precomputed outbound payload
+char *body;
+
+int port = 8085;
+int total_clients = 0;
+
+/**
+ * DATA STRUCTURE & "OBJECT" IMPLEMENTATIONS
+ */
+
+Node node_init()
+{
+  Node node = malloc(sizeof(struct Node));
+  node->value = NULL;
+  node->next = NULL;
+  return node;
+}
+
+void node_destroy(Node node)
+{
+  free(node);
+}
+
+Stack stack_init()
+{
+  Stack stack = malloc(sizeof(struct Stack));
+  return stack;
+}
+
+void stack_destroy(Stack stack)
+{
+  free(stack);
+}
+
+Node
+stack_pop(Stack stack)
+{
+  if (stack->top == NULL)
+    return NULL;
+
+  Node ret = stack->top;
+  stack->top = ret->next;
+  return ret;
+}
+
+void
+stack_push(Stack stack, Node node)
+{
+  node->next = stack->top;
+  stack->top = node;
+}
+
 Connection
-conn_init(int fd)
+conn_init()
 {
   Connection conn;
-
-  total_clients++;
-  //puts("Succcessfully connected with client.");
-  //printf("%d client(s) connected.\n", total_clients);
-
   conn = malloc(sizeof(struct Connection));
-  conn->fd = fd;
   conn->read_watcher = (struct ev_io*) malloc(sizeof(struct ev_io));
   conn->read_watcher->data = (void*)conn;
   conn->write_watcher = (struct ev_io*) malloc(sizeof(struct ev_io));
   conn->write_watcher->data = (void*)conn;
-  ev_io_init(conn->read_watcher, conn_read_callback, fd, EV_READ);
-  ev_io_init(conn->write_watcher, conn_write_callback, fd, EV_WRITE);
+  ev_init(conn->read_watcher, conn_read_callback);
+  ev_init(conn->write_watcher, conn_write_callback);
   conn->in = buffer_init(BUFFER_SIZE);
   conn->out = buffer_init(BUFFER_SIZE);
   return conn;
 }
 
+Connection
+conn_start(int fd)
+{
+  Node node;
+  Connection conn;
+
+  node = stack_pop(connection_pool);
+  if (node == NULL) {
+    puts("Connection pool miss. conn_init().\n");
+    conn = conn_init();
+  } else {
+    conn = (Connection) node->value;
+  }
+
+  total_clients++;
+  //puts("Succcessfully connected with client.");
+  //printf("%d client(s) connected.\n", total_clients);
+
+  conn->fd = fd;
+  ev_io_set(conn->read_watcher, conn->fd, EV_READ);
+  ev_io_set(conn->write_watcher, conn->fd, EV_WRITE);
+  ev_io_start(global_loop, conn->read_watcher);
+
+  return conn;
+}
+
+void
+conn_destroy(Connection conn)
+{
+  buffer_destroy(conn->in);
+  buffer_destroy(conn->out);
+  free(conn);
+}
+
 void
 conn_close(Connection conn)
 {
+  Node node;
+
   total_clients--;
   //printf("%d client(s) connected.\n", total_clients);
 
@@ -109,9 +218,12 @@ conn_close(Connection conn)
   shutdown(conn->fd, SHUT_RDWR);
   close(conn->fd);
 
-  buffer_destroy(conn->in);
-  buffer_destroy(conn->out);
-  free(conn);
+  buffer_reset(conn->in);
+  buffer_reset(conn->out);
+
+  node = node_init();
+  node->value = (void *)conn;
+  stack_push(connection_pool, node);
 }
 
 void
@@ -153,6 +265,10 @@ buffer_destroy(Buffer buffer)
   free(buffer);
 }
 
+/**
+ * NETWORKING
+ */
+
 void
 setnonblock(int fd)
 {
@@ -193,6 +309,10 @@ check_error(Connection conn)
   return;
 }
 
+/**
+ * EVENT LOOP CALLBACKS
+ */
+
 void
 conn_read_callback(struct ev_loop *loop, struct ev_io *watcher, int revents)
 {
@@ -217,13 +337,7 @@ conn_read_callback(struct ev_loop *loop, struct ev_io *watcher, int revents)
   }
   // read some stuff - right now we cheat and just assume it is a request :)
   ev_io_stop(loop, conn->read_watcher);
-
-  /* char *headers = calloc(strlen(HEADER_TEXT) + 16, sizeof(char));*/
-  /* sprintf(headers, HEADER_TEXT, strlen(HEADER_TEXT));*/
-  /* conn_write(conn, headers, strlen(headers));*/
-  /* conn_write(conn, BODY_TEXT, strlen(BODY_TEXT));*/
   conn_write(conn, body, strlen(body));
-
   ev_io_start(loop, conn->write_watcher);
 }
 
@@ -254,9 +368,6 @@ conn_write_callback(struct ev_loop *loop, struct ev_io *watcher, int revents)
   conn->out->loc = new_loc;
   // if we've drained our buffer, GTFO
   if (conn->out->loc >= conn->out->len) {
-    /* buffer_reset(conn->out);*/
-    /* ev_io_stop(loop, conn->write_watcher);*/
-    /* ev_io_start(loop, conn->read_watcher);*/
     //printf("Done writing. Closing connection %i.\n", total_clients);
     conn_close(conn);
   }
@@ -277,8 +388,7 @@ accept_cb(struct ev_loop *loop, struct ev_io *w, int revents)
 
   while ((client_sd = accept(w->fd, (struct sockaddr *)&client_addr, &client_len)) > 0) {
     setnonblock(client_sd);
-    conn = conn_init(client_sd);
-    ev_io_start(loop, conn->read_watcher);
+    conn = conn_start(client_sd);
   }
 
   if (errno != EAGAIN && errno != EINTR && errno != EWOULDBLOCK) {
@@ -287,29 +397,9 @@ accept_cb(struct ev_loop *loop, struct ev_io *w, int revents)
   }
 }
 
-void
-exit_cleanly_callback(struct ev_loop *loop, struct ev_signal *watcher, int revents)
-{
-  puts("stopping.");
-  ev_unloop(loop, EVUNLOOP_ALL);
-  exit(0);
-}
-
-void
-set_sig_handlers()
-{
-  ev_signal sigint_watcher;
-  ev_signal sighup_watcher;
-  ev_signal sigterm_watcher;
-
-  ev_signal_init(&sigint_watcher, exit_cleanly_callback, SIGINT);
-  ev_signal_init(&sighup_watcher, exit_cleanly_callback, SIGHUP);
-  ev_signal_init(&sigterm_watcher, exit_cleanly_callback, SIGTERM);
-
-  ev_signal_start(global_loop, &sigint_watcher);
-  ev_signal_start(global_loop, &sighup_watcher);
-  ev_signal_start(global_loop, &sigterm_watcher);
-}
+/**
+ * HELLOD
+ */
 
 void
 accept_connections()
@@ -333,7 +423,6 @@ void
 setup_event_loop()
 {
   global_loop = ev_default_loop(0);
-  /* ev_set_io_collect_interval(global_loop, IO_COLLECT_INTERVAL);*/
 }
 
 void
@@ -346,14 +435,29 @@ prep_content_buffers()
   memmove(body+strlen(headers), BODY_TEXT, strlen(BODY_TEXT));
 }
 
+void
+setup_connection_pool()
+{
+  int i;
+  Node node;
+  Connection conn;
+
+  connection_pool = stack_init();
+  for (i = 0; i < CONNECTION_POOL_SIZE; i++) {
+    node = node_init();
+    conn = conn_init();
+    node->value = (void *) conn;
+    stack_push(connection_pool, node);
+  }
+}
+
 int
 main(void)
 {
   puts("started.");
-
   prep_content_buffers();
+  setup_connection_pool();
   setup_event_loop();
-  /* set_sig_handlers();*/
   accept_connections();
   exit(0);
 }
