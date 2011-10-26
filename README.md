@@ -18,6 +18,7 @@ Node - port 8081
 Go - port 8082
 -----------
 
+    easy_install mercurial
     brew install go
     export GOROOT=/usr/local/Cellar/go/r60.1
     cd go
@@ -33,11 +34,20 @@ Clojure - port 8083
 Erlang - port 8084
 -----------
 
-    brew install erlang
+    brew install -v erlang --use-gcc
     brew install rebar
     cd erlang; ./shell
     # in shell
     > application:start(hello).
+
+    NOTE: you need the trailing '.' in the shell.
+
+C / libev - port 8085
+-----------
+
+    brew install libev (or apt-get install libev libev-dev)
+    make
+    ./hellod
 
 Benchmark
 -----------
