@@ -6,6 +6,7 @@
 #include <string.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
 /*
  * Thanks to:
@@ -354,5 +355,6 @@ main(void)
   setup_event_loop();
   /* set_sig_handlers();*/
   accept_connections();
+  exit(0);
 }
 
