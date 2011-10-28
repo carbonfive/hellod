@@ -1,0 +1,1 @@
+java -classpath "out/:lib/netty-3.2.6.Final.jar"  HelloDServer
