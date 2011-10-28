@@ -6,3 +6,6 @@ clj-*/lib
 c/hellod
 c/libtask/primes
 c/libtask/testdelay
+out
+.idea
+*.iml

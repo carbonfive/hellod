@@ -7,13 +7,17 @@ class Hellod
             'go' => 8082,
             'clj-aleph' => '8083',
             'clj-jetty' => '8084',
-            'c' => '8085' }
+            'c' => '8085',
+            'java-nio' => '8086',
+            'java-netty' => '8087'}
   CMDS = { 'ruby' => 'ruby ruby/server.rb',
            'node' => 'node node/server.js',
            'go' => 'GOMAXPROCS=6; ./go/hellod',
            'clj-aleph' => 'cd clj-aleph; lein run',
            'clj-jetty' => 'cd clj-jetty; lein run',
-           'c' => './c/hellod' }
+           'c' => './c/hellod',
+           'java-nio' => 'cd java-nio; ./hellod',
+           'java-netty' => 'cd java-netty; ./hellod' }
 
   def initialize(opts = {})
     opts = { :requests => 10000, :concurrent => 50 }.merge(opts)

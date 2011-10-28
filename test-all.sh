@@ -61,3 +61,7 @@ run 'clj-aleph' 'Clojure / Aleph - Sun JDK' 'lein version' 'java -version' '' $S
 run 'clj-aleph' 'Clojure / Aleph - OpenJDK' 'lein version' 'java -version' '' $OPENJDK
 run 'clj-jetty' 'Clojure / Ring - Sun JDK' 'lein version' 'java -version' '' $SUNJDK
 run 'clj-jetty' 'Clojure / Ring - OpenJDK' 'lein version' 'java -version' '' $OPENJDK
+run 'java-nio' ' Java NIO - Sun JDK' '' 'java -version' '' $SUNJDK
+run 'java-nio' ' Java NIO - OpenJDK' '' 'java -version' '' $OPENJDK
+run 'java-netty' ' Java Netty - Sun JDK' '' 'java -version' '' $SUNJDK
+run 'java-netty' ' Java Netty - OpenJDK' '' 'java -version' '' $OPENJDK

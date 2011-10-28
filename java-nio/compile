@@ -1,0 +1,3 @@
+rm -fr out
+mkdir out
+javac src/HelloDServer.java -d out
