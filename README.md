@@ -49,6 +49,20 @@ C / libev - port 8085
     make
     ./hellod
 
+Java / Simple Java NIO - port 8086
+-----------
+
+    cd java-nio
+    ./compile 
+    ./hellod
+
+Java / JBoss Netty (w/ NIO) - port 8087
+-----------
+
+    cd java-netty
+    ./compile 
+    ./hellod
+
 Benchmark
 -----------
     ab -n 10000 -c 100 http://localhost:8080/
