@@ -33,6 +33,9 @@ public class HelloHttpRequestHandler extends org.jboss.netty.channel.SimpleChann
         //response.setContent(ChannelBuffers.copiedBuffer(buf.toString(), CharsetUtil.UTF_8));
         response.setContent(ChannelBuffers.copiedBuffer(BODY_TEXT, CharsetUtil.UTF_8));
         response.setHeader(CONTENT_TYPE, "text/plain; charset=UTF-8");
+        if (!keepAlive) {
+            response.setHeader(CONNECTION, "close");
+        }
 
         if (keepAlive) {
             // Add 'Content-Length' header only for a keep-alive connection.

@@ -12,6 +12,11 @@ public class HelloDServer {
                         Executors.newCachedThreadPool(),
                         Executors.newCachedThreadPool()));
 
+
+        bootstrap.setOption("tcpNoDelay", true);
+        bootstrap.setOption("reuseAddress", true);
+        bootstrap.setOption("child.reuseAddress", true);
+
         // Set up the event pipeline factory.
         bootstrap.setPipelineFactory(new HttpServerPipelineFactory());
 

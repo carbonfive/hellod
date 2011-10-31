@@ -11,7 +11,7 @@ import java.util.Set;
 public class HelloDServer {
     private static int port = 8086;
     private static final String BODY_TEXT  =  "<html><body><h1>Hello World</h1></body></html>\r\n";
-    private static final String HEADER_TEXT = String.format("HTTP/1.1 200 OKContent-Type: text/html\r\nContent-Length: %1$d\r\n\r\n", BODY_TEXT.getBytes().length);
+    private static final String HEADER_TEXT = String.format("HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: text/html\r\nContent-Length: %1$d\r\n\r\n", BODY_TEXT.getBytes().length);
 
 
     public static void main(String args[]) throws Exception {
@@ -47,6 +47,7 @@ public class HelloDServer {
 
                     // Get server socket
                     ServerSocket serverSocket = keyChannel.socket();
+                    serverSocket.setReuseAddress(true);
 
                     // Accept request
                     Socket socket = serverSocket.accept();
